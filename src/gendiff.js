@@ -2,18 +2,15 @@ import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import _ from 'lodash';
 
-const getPath = (filePath) => {
-  return resolve(process.cwd(), filePath);
-}
+const getPath = (filePath) => resolve(process.cwd(), filePath);
 
 const prepareData = (file) => {
   const data = JSON.parse(file);
 
-  const sortedData = _.sortBy(Object.keys(data)).reduce(
-    (obj, key) => {
-      obj[key] = data[key];
-      return obj;
-    }, {});
+  const sortedData = _.sortBy(Object.keys(data)).reduce((obj, key) => {
+    obj[key] = data[key];
+    return obj;
+  }, {});
 
   return sortedData;
 };
