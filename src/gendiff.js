@@ -16,7 +16,6 @@ const prepareData = (file) => {
   return sortedData;
 };
 
-
 const genFlatJsonDiff = (json1, json2) => {
   const keys1 = Object.keys(json1);
   const keys2 = Object.keys(json2);
