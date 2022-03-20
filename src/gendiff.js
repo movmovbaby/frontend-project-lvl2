@@ -8,19 +8,22 @@ const prepareData = (file) => {
   const data = JSON.parse(file);
 
   const sortedData = _.sortBy(Object.keys(data)).reduce((obj, key) => {
-    obj[key] = data[key];
-    return obj;
+    const temp = obj;
+    temp[key] = data[key];
+    return temp;
   }, {});
 
   return sortedData;
 };
+
 
 const genFlatJsonDiff = (json1, json2) => {
   const keys1 = Object.keys(json1);
   const keys2 = Object.keys(json2);
   let result = '{\n';
 
-  for (const key of keys1) {
+  for (let i = 0; i < keys1.length; i += 1) {
+    const key = keys1[i];
     if (!Object.hasOwn(json2, key)) {
       result += `  - ${key}: ${json1[key]}\n`;
     } else if (Object.hasOwn(json2, key)) {
@@ -35,7 +38,8 @@ const genFlatJsonDiff = (json1, json2) => {
   }
 
   if (keys2.length !== 0) {
-    for (const key of keys2) {
+    for (let i = 0; i < keys2.length; i += 1) {
+      const key = keys2[i];
       result += `  + ${key}: ${json2[key]}\n`;
     }
   }
