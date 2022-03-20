@@ -33,16 +33,18 @@ const genFlatJsonDiff = (json1, json2) => {
       }
     }
   }
+
   if (keys2.length !== 0) {
     for (const key of keys2) {
       result += `  + ${key}: ${json2[key]}\n`;
     }
   }
   result += '}';
+
   return result;
 };
 
-export const genDiff = (filePath1, filePath2) => {
+const genDiff = (filePath1, filePath2) => {
   const file1 = readFileSync(getPath(filePath1));
   const file2 = readFileSync(getPath(filePath2));
 
@@ -52,3 +54,5 @@ export const genDiff = (filePath1, filePath2) => {
 
   return diff;
 };
+
+export default genDiff;
