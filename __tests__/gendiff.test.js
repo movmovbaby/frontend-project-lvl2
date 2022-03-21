@@ -42,7 +42,7 @@ test('test', () => {
   + meta: off
   + outline: false
   + title: string
-}`
+}`;
 
   expect(genDiff(filename1, filename2)).toEqual(answer1);
   expect(genDiff(filename1, filename3)).toEqual(answer2);
