@@ -28,10 +28,10 @@ const genFlatJsonDiff = (json1, json2) => {
     } else if (Object.hasOwn(json2, key)) {
       if (json1[key] === json2[key]) {
         result += `    ${key}: ${json1[key]}\n`;
-        keys2.shift();
+        _.pull(keys2, key);
       } else {
         result += `  - ${key}: ${json1[key]}\n`.concat(`  + ${key}: ${json2[key]}\n`);
-        keys2.shift();
+        _.pull(keys2, key);
       }
     }
   }
