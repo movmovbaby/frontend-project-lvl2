@@ -5,7 +5,7 @@
   "description": "[![Actions Status](https://github.com/movmovbaby/frontend-project-lvl2/workflows/hexlet-check/badge.svg)](https://github.com/movmovbaby/frontend-project-lvl2/actions)",
   "main": "/bin/gendiff.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest --watch"
   },
   "bin": {
     "gendiff": "bin/gendiff.js"
@@ -17,7 +17,8 @@
   "devDependencies": {
     "eslint": "^8.8.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.25.4"
+    "eslint-plugin-import": "^2.25.4",
+    "jest": "^27.5.1"
   },
   "repository": {
     "type": "git",
