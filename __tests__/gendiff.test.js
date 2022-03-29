@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const getFixturePath = (filename) => join(__dirname, '..', '__fixtures__', filename);
 
-test('test', () => {
+test('test plain JSON diff', () => {
   const filename1 = getFixturePath('file1.json');
   const filename2 = getFixturePath('file2.json');
   const filename3 = getFixturePath('file3.json');
@@ -47,4 +47,19 @@ test('test', () => {
   expect(genDiff(filename1, filename2)).toEqual(answer1);
   expect(genDiff(filename1, filename3)).toEqual(answer2);
   expect(genDiff(filename1, filename4)).toEqual(answer3);
+});
+
+test('test plain YAML diff', () => {
+  const answer1 = `{
+  - follow: false
+    host: hexlet.io
+  - proxy: 123.234.53.22
+  - timeout: 50
+  + timeout: 20
+  + verbose: true
+}`;
+
+  const filename1 = getFixturePath('file1.yaml');
+  const filename2 = getFixturePath('file2.yaml');
+  expect(genDiff(filename1, filename2)).toEqual(answer1);
 });
