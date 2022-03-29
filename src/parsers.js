@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import yaml from 'js-yaml';
 
-
 const dataToSortedObject = (file, extension) => {
   let data;
 
@@ -20,6 +19,5 @@ const dataToSortedObject = (file, extension) => {
 
   return sortedData;
 };
-
 
 export default dataToSortedObject;
