@@ -1,22 +1,11 @@
 import { readFileSync } from 'fs';
-import { resolve } from 'path';
+import { resolve, extname } from 'path';
 import _ from 'lodash';
+import dataToSortedObject from './parsers.js';
 
 const getPath = (filePath) => resolve(process.cwd(), filePath);
 
-const prepareData = (file) => {
-  const data = JSON.parse(file);
-
-  const sortedData = _.sortBy(Object.keys(data)).reduce((obj, key) => {
-    const temp = obj;
-    temp[key] = data[key];
-    return temp;
-  }, {});
-
-  return sortedData;
-};
-
-const genFlatJsonDiff = (json1, json2) => {
+const genFlatDiff = (json1, json2) => {
   const keys1 = Object.keys(json1);
   const keys2 = Object.keys(json2);
   let result = '{\n';
@@ -48,12 +37,15 @@ const genFlatJsonDiff = (json1, json2) => {
 };
 
 const genDiff = (filePath1, filePath2) => {
+  const extension1 = extname(filePath1);
+  const extension2 = extname(filePath2);
+
   const file1 = readFileSync(getPath(filePath1));
   const file2 = readFileSync(getPath(filePath2));
 
-  const json1 = prepareData(file1);
-  const json2 = prepareData(file2);
-  const diff = genFlatJsonDiff(json1, json2);
+  const data1 = dataToSortedObject(file1, extension1);
+  const data2 = dataToSortedObject(file2, extension2);
+  const diff = genFlatDiff(data1, data2);
 
   return diff;
 };
