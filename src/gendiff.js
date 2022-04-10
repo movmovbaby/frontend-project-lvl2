@@ -5,35 +5,61 @@ import dataToSortedObject from './parsers.js';
 
 const getPath = (filePath) => resolve(process.cwd(), filePath);
 
-const genFlatDiff = (json1, json2) => {
+const isObjectNotArray = (item) => {
+  return _.isObject(item) && !_.isArray(item);
+};
+
+/*
+  формат диффа
+  {name, value, status, previousValue}
+  status {
+    '+',
+    '-',
+    '=',
+  }
+*/
+
+const genDiffImpl = (json1, json2) => {
+  const diff = [];
   const keys1 = Object.keys(json1);
   const keys2 = Object.keys(json2);
-  let result = '{\n';
 
-  for (let i = 0; i < keys1.length; i += 1) {
-    const key = keys1[i];
+  for (const key of keys1) {
     if (!Object.hasOwn(json2, key)) {
-      result += `  - ${key}: ${json1[key]}\n`;
-    } else if (Object.hasOwn(json2, key)) {
-      if (json1[key] === json2[key]) {
-        result += `    ${key}: ${json1[key]}\n`;
-        _.pull(keys2, key);
-      } else {
-        result += `  - ${key}: ${json1[key]}\n`.concat(`  + ${key}: ${json2[key]}\n`);
-        _.pull(keys2, key);
+      // если ключа нет во втором файле, значит его убрали
+      diff.push({ name: key, value: json1[key], status: '-' });
+      _.pull(keys2, key);
+    } else {
+      if (Object.hasOwn(json2, key)) {
+        // если ключ есть во втором файле
+        if (json1[key] === json2[key]) {
+          // значения по ключу равны
+          diff.push({ name: key, value: json1[key], status: '=' });
+          _.pull(keys2, key);
+        } else {
+          // значения разные, но одновременно не вложенные json
+          if (!isObjectNotArray(json1[key]) || !isObjectNotArray(json2[key])) {
+            diff.push({ name: key, value: json2[key], status: '+', previousValue: json1[key] });
+            _.pull(keys2, key);
+          } else {
+            // значения разные, вложенные json
+            if (isObjectNotArray(json1[key]) || isObjectNotArray(json2[key])) {
+              const children = genDiffImpl(json1[key], json2[key]);
+              diff.push({ name: key, value: 'json', status: '+', children: children });
+              _.pull(keys2, key);
+            }
+          }
+        }
       }
     }
   }
-
+  // здесь остались ключи, появившиеся во втором файле
   if (keys2.length !== 0) {
-    for (let i = 0; i < keys2.length; i += 1) {
-      const key = keys2[i];
-      result += `  + ${key}: ${json2[key]}\n`;
+    for (const key of keys2) {
+      diff.push({ name: key, value: json2[key], status: '+' })
     }
   }
-  result += '}';
-
-  return result;
+  return diff;
 };
 
 const genDiff = (filePath1, filePath2) => {
@@ -45,7 +71,7 @@ const genDiff = (filePath1, filePath2) => {
 
   const data1 = dataToSortedObject(file1, extension1);
   const data2 = dataToSortedObject(file2, extension2);
-  const diff = genFlatDiff(data1, data2);
+  const diff = genDiffImpl(data1, data2);
 
   return diff;
 };

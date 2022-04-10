@@ -12,7 +12,8 @@ program
   .description('Compares two configuration files and shows a difference.')
   .action((filepath1, filepath2) => {
     const diff = genDiff(filepath1, filepath2);
-    console.log(diff);
+    const pretty = JSON.stringify(diff, null, 2);
+    console.log(pretty);
   });
 
 program.parse();
