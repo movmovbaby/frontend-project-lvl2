@@ -11,7 +11,7 @@ const isObjectNotArray = (item) => {
 
 /*
   формат диффа
-  {name, value, status, previousValue}
+  {name, value, status, previousValue, children}
   status {
     '+',
     '-',

@@ -2,6 +2,7 @@
 
 import { Command } from 'commander';
 import genDiff from '../src/gendiff.js';
+import stylish from '../src/formatters.js';
 
 const program = new Command();
 program
@@ -12,7 +13,7 @@ program
   .description('Compares two configuration files and shows a difference.')
   .action((filepath1, filepath2) => {
     const diff = genDiff(filepath1, filepath2);
-    const pretty = JSON.stringify(diff, null, 2);
+    const pretty = stylish(diff);
     console.log(pretty);
   });
 
