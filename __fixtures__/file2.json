@@ -1,7 +1,4 @@
 {
-  "a": {
-    "b": 1
-  },
   "common": {
     "follow": false,
     "setting1": "Value 1",

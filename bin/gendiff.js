@@ -13,8 +13,10 @@ program
   .description('Compares two configuration files and shows a difference.')
   .action((filepath1, filepath2) => {
     const diff = genDiff(filepath1, filepath2);
+    //console.log(JSON.stringify(diff));
     const pretty = stylish(diff);
     console.log(pretty);
+    return pretty;
   });
 
 program.parse();

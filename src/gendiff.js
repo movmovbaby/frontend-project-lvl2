@@ -2,21 +2,13 @@ import { readFileSync } from 'fs';
 import { resolve, extname } from 'path';
 import _ from 'lodash';
 import dataToSortedObject from './parsers.js';
+import isObjectAndNotArray from './utils.js';
 
 const getPath = (filePath) => resolve(process.cwd(), filePath);
-
-const isObjectNotArray = (item) => {
-  return _.isObject(item) && !_.isArray(item);
-};
 
 /*
   формат диффа
   {name, value, status, previousValue, children}
-  status {
-    '+',
-    '-',
-    '=',
-  }
 */
 
 const genDiffImpl = (json1, json2) => {
@@ -38,12 +30,12 @@ const genDiffImpl = (json1, json2) => {
           _.pull(keys2, key);
         } else {
           // значения разные, но одновременно не вложенные json
-          if (!isObjectNotArray(json1[key]) || !isObjectNotArray(json2[key])) {
+          if (!isObjectAndNotArray(json1[key]) || !isObjectAndNotArray(json2[key])) {
             diff.push({ name: key, value: json2[key], status: '+', previousValue: json1[key] });
             _.pull(keys2, key);
           } else {
             // значения разные, вложенные json
-            if (isObjectNotArray(json1[key]) || isObjectNotArray(json2[key])) {
+            if (isObjectAndNotArray(json1[key]) || isObjectAndNotArray(json2[key])) {
               const children = genDiffImpl(json1[key], json2[key]);
               diff.push({ name: key, value: 'json', status: '+', children: children });
               _.pull(keys2, key);
@@ -59,7 +51,7 @@ const genDiffImpl = (json1, json2) => {
       diff.push({ name: key, value: json2[key], status: '+' })
     }
   }
-  return diff;
+  return _.sortBy(diff, ['name']);
 };
 
 const genDiff = (filePath1, filePath2) => {
