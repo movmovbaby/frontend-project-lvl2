@@ -10,7 +10,7 @@ Stylish formatter
 [![asciicast](https://asciinema.org/a/RjtZeEp9QqcVsyfMnxflyZnnU.svg)](https://asciinema.org/a/RjtZeEp9QqcVsyfMnxflyZnnU)
 
 Plain formatter
-https://asciinema.org/a/RjtZeEp9QqcVsyfMnxflyZnnU
+[![asciicast](https://asciinema.org/a/0uVGjZMVy3zYoRQrt927M0qew.svg)](https://asciinema.org/a/0uVGjZMVy3zYoRQrt927M0qew)
 
 Json formatter
-https://asciinema.org/a/qT3Dmv671viAUqSWZswpMitxs
+[![asciicast](https://asciinema.org/a/qT3Dmv671viAUqSWZswpMitxs.svg)](https://asciinema.org/a/qT3Dmv671viAUqSWZswpMitxs)
