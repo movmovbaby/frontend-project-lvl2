@@ -1,17 +1,7 @@
-import { readFileSync } from 'fs';
-import { resolve, extname } from 'path';
 import _ from 'lodash';
-import dataToSortedObject from './parsers.js';
 import isObjectAndNotArray from './utils.js';
 
-const getPath = (filePath) => resolve(process.cwd(), filePath);
-
-/*
-  формат диффа
-  {name, value, status, previousValue, children}
-*/
-
-const genDiffImpl = (json1, json2) => {
+const genDiff = (json1, json2) => {
   const diff = [];
   const keys = (_.union([...Object.keys(json1), ...Object.keys(json2)])).sort();
 
@@ -25,7 +15,7 @@ const genDiffImpl = (json1, json2) => {
     // если ключа нет во втором файле, значит его убрали
     if (!Object.hasOwn(json2, key)) {
       if (value1Type === 'json') {
-        const children = genDiffImpl(value1, value1);
+        const children = genDiff(value1, value1);
         diff.push({
           name: key, value: value1, type: value1Type, status: 'deleted', children,
         });
@@ -39,7 +29,7 @@ const genDiffImpl = (json1, json2) => {
     // если ключа нет в первом файле, значит его добавили
     if (!Object.hasOwn(json1, key)) {
       if (value2Type === 'json') {
-        const children = genDiffImpl(value2, value2);
+        const children = genDiff(value2, value2);
         diff.push({
           name: key, value: value2, type: value2Type, status: 'added', children,
         });
@@ -57,7 +47,7 @@ const genDiffImpl = (json1, json2) => {
           name: key, value: value1, type: value1Type, status: 'unchanged',
         });
       } else {
-        const children = genDiffImpl(value1, value1);
+        const children = genDiff(value1, value1);
         diff.push({
           name: key, value: value1, type: value1Type, status: 'unchanged', children,
         });
@@ -66,20 +56,20 @@ const genDiffImpl = (json1, json2) => {
     }
 
     // значения разные, но одновременно не вложенные json
-    if (!isObjectAndNotArray(value1) || !isObjectAndNotArray(value2)) {
+    if ((!isObjectAndNotArray(value1) || !isObjectAndNotArray(value2)) && !_.isEqual(value1, value2)) {
       if (value1Type === 'primitive' && value2Type === 'primitive') {
         diff.push({
           name: key, value: value2, type: value2Type, status: 'added', previousValue: value1, previousValueType: value1Type,
         });
       }
       if (value2Type === 'json' && value1Type === 'primitive') {
-        const children = genDiffImpl(value2, value2);
+        const children = genDiff(value2, value2);
         diff.push({
           name: key, value: value2, type: value2Type, status: 'added', children, previousValue: value1, previousValueType: value1Type,
         });
       }
       if (value2Type === 'primitive' && value1Type === 'json') {
-        const children = genDiffImpl(value1, value1);
+        const children = genDiff(value1, value1);
         diff.push({
           name: key, value: value2, type: value2Type, status: 'added', previousValue: value1, previousValueType: value1Type, children,
         });
@@ -88,7 +78,7 @@ const genDiffImpl = (json1, json2) => {
 
     // значения разные, вложенные json
     if (isObjectAndNotArray(value1) && isObjectAndNotArray(value2)) {
-      const children = genDiffImpl(value1, value2);
+      const children = genDiff(value1, value2);
       let status = 'added';
       if (Object.hasOwn(json1, key) && Object.hasOwn(json2, key)) {
         status = 'updated';
@@ -100,20 +90,6 @@ const genDiffImpl = (json1, json2) => {
   }
 
   return _.sortBy(diff, ['name']);
-};
-
-const genDiff = (filePath1, filePath2) => {
-  const extension1 = extname(filePath1);
-  const extension2 = extname(filePath2);
-
-  const file1 = readFileSync(getPath(filePath1));
-  const file2 = readFileSync(getPath(filePath2));
-
-  const data1 = dataToSortedObject(file1, extension1);
-  const data2 = dataToSortedObject(file2, extension2);
-  const diff = genDiffImpl(data1, data2);
-
-  return diff;
 };
 
 export default genDiff;

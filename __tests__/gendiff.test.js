@@ -1,18 +1,16 @@
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { test, expect } from '@jest/globals';
-import genDiff from '../src/gendiff.js';
-import stylish from '../src/formatters.js';
+import generateDiff from '../src/index.js';
+import stylish from '../src/formatters/stylish.js';
+import plain from '../src/formatters/plain.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const getFixturePath = (filename) => join(__dirname, '..', '__fixtures__', filename);
 
 test('test JSON diff with stylish formatter', () => {
-  const filename1 = getFixturePath('file1.json');
-  const filename2 = getFixturePath('file2.json');
-
-  const answer1 = `{
+  const answer = `{
     common: {
       + follow: false
         setting1: Value 1
@@ -57,11 +55,13 @@ test('test JSON diff with stylish formatter', () => {
     }
 }`;
 
-  expect(stylish(genDiff(filename1, filename2))).toEqual(answer1);
+  const filename1 = getFixturePath('file1.json');
+  const filename2 = getFixturePath('file2.json');
+  expect(generateDiff(filename1, filename2, 'stylish')).toEqual(answer);
 });
 
 test('test YAML diff with stylish formatter', () => {
-  const answer1 = `{
+  const answer = `{
     common: {
       + follow: false
         setting1: Value 1
@@ -108,5 +108,26 @@ test('test YAML diff with stylish formatter', () => {
 
   const filename1 = getFixturePath('file1.yaml');
   const filename2 = getFixturePath('file2.yaml');
-  expect(stylish(genDiff(filename1, filename2))).toEqual(answer1);
+  expect(generateDiff(filename1, filename2, 'stylish')).toEqual(answer);
+});
+
+test('test JSON diff with plain formatter', () => {
+  const answer =
+    `Property 'common.follow' was added with value: false
+Property 'common.setting2' was removed
+Property 'common.setting3' was updated. From true to null
+Property 'common.setting4' was added with value: 'blah blah'
+Property 'common.setting5' was added with value: [complex value]
+Property 'common.setting6.doge.wow' was updated. From '' to 'so much'
+Property 'common.setting6.ops' was added with value: 'vops'
+Property 'group1.baz' was updated. From 'bas' to 'bars'
+Property 'group1.nest' was updated. From [complex value] to 'str'
+Property 'group2' was removed
+Property 'group3' was added with value: [complex value]`;
+
+  const filename1 = getFixturePath('file1.json');
+  const filename2 = getFixturePath('file2.json');
+  const plainFormat = generateDiff(filename1, filename2, 'plain');
+
+  expect(plainFormat).toEqual(answer);
 });

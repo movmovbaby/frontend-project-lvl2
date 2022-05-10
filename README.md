@@ -5,9 +5,5 @@
 ![example workflow](https://github.com/movmovbaby/frontend-project-lvl2/actions/workflows/project-lint.yml/badge.svg)
 
 
-ASCIINEMA with examples of work:
-for plain JSON files
-https://asciinema.org/a/HhH09I5xzfTNLVwNdACrlDtVR
-
-for plain YAML files:
-https://asciinema.org/a/OJr6QuU994zh6nkc2A814Kn4m
+asciinema with examples of work:
+https://asciinema.org/a/2xDVh8OAkYRDwiKGSaf6JERQy

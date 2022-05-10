@@ -1,22 +1,21 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander';
-import genDiff from '../src/gendiff.js';
-import stylish from '../src/formatters.js';
+import generateDiff from '../src/index.js';
 
 const program = new Command();
 program
   .name('gendiff')
   .version('output the version number')
-  .option('-f, --format <type>', 'output format')
+  .option('-f, --format <type>', 'output format', 'stylish')
   .arguments('<filepath1> <filepath2>')
   .description('Compares two configuration files and shows a difference.')
   .action((filepath1, filepath2) => {
-    const diff = genDiff(filepath1, filepath2);
-    // console.log(JSON.stringify(diff));
-    const pretty = stylish(diff);
-    // console.log(pretty);
-    return pretty;
+    const { format } = program.opts();
+    const diff = generateDiff(filepath1, filepath2, format);
+
+    console.log(diff);
+    //  return pretty;
   });
 
 program.parse();
