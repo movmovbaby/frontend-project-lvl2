@@ -2,18 +2,20 @@ import _ from 'lodash';
 
 const addTemplate = (path, value, previousValue) => {
   let ret = '';
+  let newValue = value;
+  let newPreviousValue = previousValue;
 
   if (typeof value === 'string' && value !== '[complex value]') {
-    value = `'${value}'`;
+    newValue = `'${value}'`;
   }
   if (typeof previousValue === 'string' && previousValue !== '[complex value]') {
-    previousValue = `'${previousValue}'`;
+    newPreviousValue = `'${previousValue}'`;
   }
 
-  if (previousValue === undefined) {
-    ret = `Property '${path}' was added with value: ${value}`;
+  if (newPreviousValue === undefined) {
+    ret = `Property '${path}' was added with value: ${newValue}`;
   } else {
-    ret = `Property '${path}' was updated. From ${previousValue} to ${value}`;
+    ret = `Property '${path}' was updated. From ${newPreviousValue} to ${newValue}`;
   }
   return ret;
 };
@@ -30,7 +32,8 @@ const plain = (diff) => {
         name, value, status, previousValue, children,
       } = item;
 
-
+      const from = _.isObject(previousValue) ? '[complex value]' : previousValue;
+      const to = _.isObject(value) ? '[complex value]' : value;
 
       let newPath = '';
       if (path === '') {
@@ -62,8 +65,6 @@ const plain = (diff) => {
       } else {
         switch (status) {
           case 'added':
-            const from = _.isObject(previousValue) ? '[complex value]' : previousValue;
-            const to = _.isObject(value) ? '[complex value]' : value;
             row = addTemplate(newPath, to, from);
             acc.push(row);
             break;

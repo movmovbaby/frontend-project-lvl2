@@ -3,7 +3,6 @@ import { dirname, join } from 'path';
 import { test, expect } from '@jest/globals';
 import generateDiff from '../src/index.js';
 
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const getFixturePath = (filename) => join(__dirname, '..', '__fixtures__', filename);
@@ -111,8 +110,7 @@ test('test YAML diff with stylish formatter', () => {
 });
 
 test('test JSON diff with plain formatter', () => {
-  const answer =
-    `Property 'common.follow' was added with value: false
+  const answer = `Property 'common.follow' was added with value: false
 Property 'common.setting2' was removed
 Property 'common.setting3' was updated. From true to null
 Property 'common.setting4' was added with value: 'blah blah'
@@ -131,8 +129,7 @@ Property 'group3' was added with value: [complex value]`;
 });
 
 test('test YAML diff with plain formatter', () => {
-  const answer =
-    `Property 'common.follow' was added with value: false
+  const answer = `Property 'common.follow' was added with value: false
 Property 'common.setting2' was removed
 Property 'common.setting3' was updated. From true to null
 Property 'common.setting4' was added with value: 'blah blah'
@@ -151,8 +148,7 @@ Property 'group3' was added with value: [complex value]`;
 });
 
 test('test JSON diff with json formatter', () => {
-  const answer =
-    `[
+  const answer = `[
  {
   "name": "common",
   "value": "json",
@@ -378,8 +374,7 @@ test('test JSON diff with json formatter', () => {
 });
 
 test('test JSON diff with json formatter', () => {
-  const answer =
-    `[
+  const answer = `[
  {
   "name": "common",
   "value": "json",

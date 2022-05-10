@@ -56,7 +56,8 @@ const genDiff = (json1, json2) => {
     }
 
     // значения разные, но одновременно не вложенные json
-    if ((!isObjectAndNotArray(value1) || !isObjectAndNotArray(value2)) && !_.isEqual(value1, value2)) {
+    if ((!isObjectAndNotArray(value1) || !isObjectAndNotArray(value2))
+      && !_.isEqual(value1, value2)) {
       if (value1Type === 'primitive' && value2Type === 'primitive') {
         diff.push({
           name: key, value: value2, type: value2Type, status: 'added', previousValue: value1, previousValueType: value1Type,

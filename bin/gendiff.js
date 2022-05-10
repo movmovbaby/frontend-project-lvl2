@@ -13,9 +13,7 @@ program
   .action((filepath1, filepath2) => {
     const { format } = program.opts();
     const diff = generateDiff(filepath1, filepath2, format);
-
     console.log(diff);
-    //  return pretty;
   });
 
 program.parse();
