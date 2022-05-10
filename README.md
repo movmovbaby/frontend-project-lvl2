@@ -6,4 +6,11 @@
 
 
 asciinema with examples of work:
-https://asciinema.org/a/2xDVh8OAkYRDwiKGSaf6JERQy
+Stylish formatter
+[![asciicast](https://asciinema.org/a/RjtZeEp9QqcVsyfMnxflyZnnU.svg)](https://asciinema.org/a/RjtZeEp9QqcVsyfMnxflyZnnU)
+
+Plain formatter
+https://asciinema.org/a/RjtZeEp9QqcVsyfMnxflyZnnU
+
+Json formatter
+https://asciinema.org/a/qT3Dmv671viAUqSWZswpMitxs

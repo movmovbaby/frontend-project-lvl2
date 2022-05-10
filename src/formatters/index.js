@@ -1,5 +1,6 @@
 import stylish from './stylish.js';
 import plain from './plain.js';
+import json from './json.js';
 
 const formatter = (diff, format) => {
   let ret;
@@ -10,6 +11,10 @@ const formatter = (diff, format) => {
 
     case 'plain':
       ret = plain(diff);
+      break;
+
+    case 'json':
+      ret = json(diff);
       break;
 
     default:
