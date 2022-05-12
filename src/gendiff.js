@@ -13,7 +13,7 @@ const genDiff = (json1, json2) => {
     const value2Type = _.isPlainObject(value2) ? 'json' : 'primitive';
 
     // если ключа нет во втором файле, значит его убрали
-    if (!Object.hasOwn(json2, key)) {
+    if (!_.has(json2, key)) {
       if (value1Type === 'json') {
         const children = genDiff(value1, value1);
         diff.push({
@@ -27,7 +27,7 @@ const genDiff = (json1, json2) => {
       continue;
     }
     // если ключа нет в первом файле, значит его добавили
-    if (!Object.hasOwn(json1, key)) {
+    if (!_.has(json1, key)) {
       if (value2Type === 'json') {
         const children = genDiff(value2, value2);
         diff.push({
@@ -81,7 +81,7 @@ const genDiff = (json1, json2) => {
     if (isObjectAndNotArray(value1) && isObjectAndNotArray(value2)) {
       const children = genDiff(value1, value2);
       let status = 'added';
-      if (Object.hasOwn(json1, key) && Object.hasOwn(json2, key)) {
+      if (_.has(json1, key) && _.has(json2, key)) {
         status = 'updated';
       }
       diff.push({
