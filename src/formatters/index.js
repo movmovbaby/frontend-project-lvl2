@@ -3,25 +3,19 @@ import plain from './plain.js';
 import json from './json.js';
 
 const formatter = (diff, format) => {
-  let ret;
   switch (format) {
     case 'stylish':
-      ret = stylish(diff);
-      break;
+      return stylish(diff);
 
     case 'plain':
-      ret = plain(diff);
-      break;
+      return plain(diff);
 
     case 'json':
-      ret = json(diff);
-      break;
+      return json(diff);
 
     default:
-      ret = stylish(diff);
-      break;
+      return stylish(diff);
   }
-  return ret;
 };
 
 export default formatter;

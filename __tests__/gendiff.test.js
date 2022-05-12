@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const getFixturePath = (filename) => join(__dirname, '..', '__fixtures__', filename);
 
-test('test JSON diff with stylish formatter', () => {
+test('JSON diff with stylish formatter', () => {
   const answer = `{
     common: {
       + follow: false
@@ -58,7 +58,7 @@ test('test JSON diff with stylish formatter', () => {
   expect(generateDiff(filename1, filename2, 'stylish')).toEqual(answer);
 });
 
-test('test YAML diff with stylish formatter', () => {
+test('YAML diff with stylish formatter', () => {
   const answer = `{
     common: {
       + follow: false
@@ -109,7 +109,7 @@ test('test YAML diff with stylish formatter', () => {
   expect(generateDiff(filename1, filename2, 'stylish')).toEqual(answer);
 });
 
-test('test JSON diff with plain formatter', () => {
+test('JSON diff with plain formatter', () => {
   const answer = `Property 'common.follow' was added with value: false
 Property 'common.setting2' was removed
 Property 'common.setting3' was updated. From true to null
@@ -128,7 +128,7 @@ Property 'group3' was added with value: [complex value]`;
   expect(generateDiff(filename1, filename2, 'plain')).toEqual(answer);
 });
 
-test('test YAML diff with plain formatter', () => {
+test('YAML diff with plain formatter', () => {
   const answer = `Property 'common.follow' was added with value: false
 Property 'common.setting2' was removed
 Property 'common.setting3' was updated. From true to null
@@ -147,7 +147,7 @@ Property 'group3' was added with value: [complex value]`;
   expect(generateDiff(filename1, filename2, 'plain')).toEqual(answer);
 });
 
-test('test JSON diff with json formatter', () => {
+test('JSON diff with json formatter', () => {
   const answer = `[
  {
   "name": "common",
@@ -373,7 +373,7 @@ test('test JSON diff with json formatter', () => {
   expect(generateDiff(filename1, filename2, 'json')).toEqual(answer);
 });
 
-test('test JSON diff with json formatter', () => {
+test('YAML diff with json formatter', () => {
   const answer = `[
  {
   "name": "common",
