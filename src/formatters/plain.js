@@ -24,7 +24,6 @@ const plain = (diff) => {
 
       const from = _.isObject(previousValue) ? '[complex value]' : previousValue;
       const to = _.isObject(value) ? '[complex value]' : value;
-
       const newPath = path === '' ? `${name}` : `${path}.${name}`;
 
       if (children === undefined) {
