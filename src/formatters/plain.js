@@ -1,23 +1,14 @@
 import _ from 'lodash';
 
+const valueToString = (value) => {
+  if (typeof value === 'string' && value !== '[complex value]') return `'${value}'`;
+  return value;
+};
+
 const addTemplate = (path, value, previousValue) => {
-  let ret = '';
-  let newValue = value;
-  let newPreviousValue = previousValue;
-
-  if (typeof value === 'string' && value !== '[complex value]') {
-    newValue = `'${value}'`;
-  }
-  if (typeof previousValue === 'string' && previousValue !== '[complex value]') {
-    newPreviousValue = `'${previousValue}'`;
-  }
-
-  if (newPreviousValue === undefined) {
-    ret = `Property '${path}' was added with value: ${newValue}`;
-  } else {
-    ret = `Property '${path}' was updated. From ${newPreviousValue} to ${newValue}`;
-  }
-  return ret;
+  return previousValue === undefined
+    ? `Property '${path}' was added with value: ${valueToString(value)}`
+    : `Property '${path}' was updated. From ${valueToString(previousValue)} to ${valueToString(value)}`;
 };
 
 const removeTemplate = (path) => `Property '${path}' was removed`;
@@ -27,7 +18,6 @@ const updatedTemplate = (path, from, to) => `Property '${path}' was updated. Fro
 const plain = (diff) => {
   const iter = (currentValue, path) => {
     const lines = currentValue.reduce((acc, item) => {
-      let row = '';
       const {
         name, value, status, previousValue, children,
       } = item;
@@ -35,29 +25,18 @@ const plain = (diff) => {
       const from = _.isObject(previousValue) ? '[complex value]' : previousValue;
       const to = _.isObject(value) ? '[complex value]' : value;
 
-      let newPath = '';
-      if (path === '') {
-        newPath = `${name}`;
-      } else {
-        newPath = `${path}.${name}`;
-      }
+      const newPath = path === '' ? `${name}` : `${path}.${name}`;
 
       if (children === undefined) {
         switch (status) {
           case 'added':
-            row = addTemplate(newPath, value, previousValue);
-            acc.push(row);
-            break;
+            return [...acc, addTemplate(newPath, value, previousValue)];
 
           case 'deleted':
-            row = removeTemplate(newPath);
-            acc.push(row);
-            break;
+            return [...acc, removeTemplate(newPath)];
 
           case 'updated':
-            row = updatedTemplate(newPath, previousValue, value);
-            acc.push(row);
-            break;
+            return [...acc, updatedTemplate(newPath, previousValue, value)];
 
           default:
             break;
@@ -65,18 +44,13 @@ const plain = (diff) => {
       } else {
         switch (status) {
           case 'added':
-            row = addTemplate(newPath, to, from);
-            acc.push(row);
-            break;
+            return [...acc, addTemplate(newPath, to, from)];
 
           case 'deleted':
-            row = removeTemplate(newPath);
-            acc.push(row);
-            break;
+            return [...acc, removeTemplate(newPath)];
 
           case 'updated':
-            acc.push(iter(children, newPath));
-            break;
+            return [...acc, iter(children, newPath)];
 
           default:
             break;
