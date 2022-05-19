@@ -24,34 +24,23 @@ const plain = (diff) => {
       const to = _.isObject(value) ? '[complex value]' : value;
       const newPath = path === '' ? `${name}` : `${path}.${name}`;
 
-      if (children === undefined) {
-        switch (status) {
-          case 'added':
-            return [...acc, addTemplate(newPath, value, previousValue)];
+      switch (status) {
+        case 'added':
+          return children === undefined
+            ? [...acc, addTemplate(newPath, value, previousValue)]
+            : [...acc, addTemplate(newPath, to, from)];
 
-          case 'deleted':
-            return [...acc, removeTemplate(newPath)];
+        case 'deleted':
+          return children === undefined
+            ? [...acc, removeTemplate(newPath)]
+            : [...acc, removeTemplate(newPath)];
+        case 'updated':
+          return children === undefined
+            ? [...acc, updatedTemplate(newPath, previousValue, value)]
+            : [...acc, iter(children, newPath)];
 
-          case 'updated':
-            return [...acc, updatedTemplate(newPath, previousValue, value)];
-
-          default:
-            break;
-        }
-      } else {
-        switch (status) {
-          case 'added':
-            return [...acc, addTemplate(newPath, to, from)];
-
-          case 'deleted':
-            return [...acc, removeTemplate(newPath)];
-
-          case 'updated':
-            return [...acc, iter(children, newPath)];
-
-          default:
-            break;
-        }
+        default:
+          break;
       }
       return acc;
     }, []);

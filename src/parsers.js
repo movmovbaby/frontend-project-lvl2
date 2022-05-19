@@ -1,12 +1,12 @@
 import yaml from 'js-yaml';
 
-const dataToSortedObject = (file, extension) => {
+const dataToObject = (file, extension) => {
   switch (extension) {
-    case '.json':
+    case 'json':
       return JSON.parse(file);
 
-    case '.yaml':
-    case '.yml':
+    case 'yaml':
+    case 'yml':
       return yaml.load(file);
 
     default:
@@ -14,4 +14,4 @@ const dataToSortedObject = (file, extension) => {
   }
 };
 
-export default dataToSortedObject;
+export default dataToObject;
