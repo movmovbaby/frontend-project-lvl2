@@ -5,9 +5,12 @@ const valueToString = (value) => {
   return value;
 };
 
-const addTemplate = (path, value, previousValue) => previousValue === undefined
-  ? `Property '${path}' was added with value: ${valueToString(value)}`
-  : `Property '${path}' was updated. From ${valueToString(previousValue)} to ${valueToString(value)}`;
+const addTemplate = (path, value, previousValue) => {
+  if (previousValue === undefined) {
+    return `Property '${path}' was added with value: ${valueToString(value)}`;
+  }
+  return `Property '${path}' was updated. From ${valueToString(previousValue)} to ${valueToString(value)}`;
+};
 
 const removeTemplate = (path) => `Property '${path}' was removed`;
 

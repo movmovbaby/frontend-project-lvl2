@@ -1,5 +1,4 @@
-const indentPlus = (depth) => ' '.repeat(depth).concat('  + ');
-const indentMinus = (depth) => ' '.repeat(depth).concat('  - ');
+const getIndent = (depth, delimeter) => ' '.repeat(depth).concat(`  ${delimeter} `);
 
 const stylish = (diff) => {
   const spacesCount = 4;
@@ -21,8 +20,8 @@ const stylish = (diff) => {
 
         case 'deleted':
           return type === 'primitive'
-            ? `${indentMinus(indentSize - spacesCount)}${name}: ${value}`
-            : `${indentMinus(indentSize - spacesCount)}${name}: ${iter(children, depth + 1)}`;
+            ? `${getIndent(indentSize - spacesCount, '-')}${name}: ${value}`
+            : `${getIndent(indentSize - spacesCount, '-')}${name}: ${iter(children, depth + 1)}`;
 
         case 'updated':
           return `${currentIndent}${name}: ${iter(children, depth + 1)}`;
@@ -30,18 +29,18 @@ const stylish = (diff) => {
         case 'added':
           if (previousValue === undefined) {
             return type === 'primitive'
-              ? `${indentPlus(indentSize - spacesCount)}${name}: ${value}`
-              : `${indentPlus(indentSize - spacesCount)}${name}: ${iter(children, depth + 1)}`;
+              ? `${getIndent(indentSize - spacesCount, '+')}${name}: ${value}`
+              : `${getIndent(indentSize - spacesCount, '+')}${name}: ${iter(children, depth + 1)}`;
           }
           // not undefined
           if (type === 'json' && previousValueType === 'primitive') {
-            return `${indentMinus(indentSize - spacesCount)}${name}: ${previousValue}\n${indentPlus(indentSize - spacesCount)}${name}: ${iter(children, depth + 1)}`;
+            return `${getIndent(indentSize - spacesCount, '-')}${name}: ${previousValue}\n${getIndent(indentSize - spacesCount, '+')}${name}: ${iter(children, depth + 1)}`;
           }
           if (type === 'primitive' && previousValueType === 'json') {
-            return `${indentMinus(indentSize - spacesCount)}${name}: ${iter(children, depth + 1)}\n${indentPlus(indentSize - spacesCount)}${name}: ${value}`;
+            return `${getIndent(indentSize - spacesCount, '-')}${name}: ${iter(children, depth + 1)}\n${getIndent(indentSize - spacesCount, '+')}${name}: ${value}`;
           }
           if (type === 'primitive' && previousValueType === 'primitive') {
-            return `${indentMinus(indentSize - spacesCount)}${name}: ${previousValue}\n${indentPlus(indentSize - spacesCount)}${name}: ${value}`;
+            return `${getIndent(indentSize - spacesCount, '-')}${name}: ${previousValue}\n${getIndent(indentSize - spacesCount, '+')}${name}: ${value}`;
           }
 
           break;
