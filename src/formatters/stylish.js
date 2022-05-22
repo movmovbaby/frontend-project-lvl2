@@ -9,17 +9,17 @@ const stylish = (diff) => {
 
     const lines = currentValue.map((item) => {
       const {
-        name, value, isObject, status, children, previousValue, previousValueType,
+        name, value, status, children, previousValue, isPreviousValueObject,
       } = item;
 
       switch (status) {
         case 'unchanged':
-          return isObject === false
+          return children === undefined
             ? `${currentIndent}${name}: ${value}`
             : `${currentIndent}${name}: ${iter(children, depth + 1)}`;
 
         case 'deleted':
-          return isObject === false
+          return children === undefined
             ? `${setIndent(indentSize - spacesCount, '-')}${name}: ${value}`
             : `${setIndent(indentSize - spacesCount, '-')}${name}: ${iter(children, depth + 1)}`;
 
@@ -28,18 +28,18 @@ const stylish = (diff) => {
 
         case 'added':
           if (previousValue === undefined) {
-            return isObject === false
+            return children === undefined
               ? `${setIndent(indentSize - spacesCount, '+')}${name}: ${value}`
               : `${setIndent(indentSize - spacesCount, '+')}${name}: ${iter(children, depth + 1)}`;
           }
           // not undefined
-          if (isObject === true && previousValueType === false) {
+          if (children !== undefined && isPreviousValueObject === false) {
             return `${setIndent(indentSize - spacesCount, '-')}${name}: ${previousValue}\n${setIndent(indentSize - spacesCount, '+')}${name}: ${iter(children, depth + 1)}`;
           }
-          if (isObject === false && previousValueType === true) {
+          if (children !== undefined && isPreviousValueObject === true) {
             return `${setIndent(indentSize - spacesCount, '-')}${name}: ${iter(children, depth + 1)}\n${setIndent(indentSize - spacesCount, '+')}${name}: ${value}`;
           }
-          if (isObject === false && previousValueType === false) {
+          if (children === undefined && isPreviousValueObject === false) {
             return `${setIndent(indentSize - spacesCount, '-')}${name}: ${previousValue}\n${setIndent(indentSize - spacesCount, '+')}${name}: ${value}`;
           }
 
