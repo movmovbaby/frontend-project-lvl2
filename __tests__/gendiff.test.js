@@ -152,39 +152,39 @@ test('JSON diff with json formatter', () => {
  {
   "name": "common",
   "value": "json",
-  "type": "json",
+  "isObject": true,
   "status": "updated",
   "children": [
    {
     "name": "follow",
     "value": false,
-    "type": "primitive",
+    "isObject": false,
     "status": "added"
    },
    {
     "name": "setting1",
     "value": "Value 1",
-    "type": "primitive",
+    "isObject": false,
     "status": "unchanged"
    },
    {
     "name": "setting2",
     "value": 200,
-    "type": "primitive",
+    "isObject": false,
     "status": "deleted"
    },
    {
     "name": "setting3",
     "value": null,
-    "type": "primitive",
+    "isObject": false,
     "status": "added",
     "previousValue": true,
-    "previousValueType": "primitive"
+    "previousValueType": false
    },
    {
     "name": "setting4",
     "value": "blah blah",
-    "type": "primitive",
+    "isObject": false,
     "status": "added"
    },
    {
@@ -192,13 +192,13 @@ test('JSON diff with json formatter', () => {
     "value": {
      "key5": "value5"
     },
-    "type": "json",
+    "isObject": true,
     "status": "added",
     "children": [
      {
       "name": "key5",
       "value": "value5",
-      "type": "primitive",
+      "isObject": false,
       "status": "unchanged"
      }
     ]
@@ -206,35 +206,35 @@ test('JSON diff with json formatter', () => {
    {
     "name": "setting6",
     "value": "json",
-    "type": "json",
+    "isObject": true,
     "status": "updated",
     "children": [
      {
       "name": "doge",
       "value": "json",
-      "type": "json",
+      "isObject": true,
       "status": "updated",
       "children": [
        {
         "name": "wow",
         "value": "so much",
-        "type": "primitive",
+        "isObject": false,
         "status": "added",
         "previousValue": "",
-        "previousValueType": "primitive"
+        "previousValueType": false
        }
       ]
      },
      {
       "name": "key",
       "value": "value",
-      "type": "primitive",
+      "isObject": false,
       "status": "unchanged"
      },
      {
       "name": "ops",
       "value": "vops",
-      "type": "primitive",
+      "isObject": false,
       "status": "added"
      }
     ]
@@ -244,37 +244,37 @@ test('JSON diff with json formatter', () => {
  {
   "name": "group1",
   "value": "json",
-  "type": "json",
+  "isObject": true,
   "status": "updated",
   "children": [
    {
     "name": "baz",
     "value": "bars",
-    "type": "primitive",
+    "isObject": false,
     "status": "added",
     "previousValue": "bas",
-    "previousValueType": "primitive"
+    "previousValueType": false
    },
    {
     "name": "foo",
     "value": "bar",
-    "type": "primitive",
+    "isObject": false,
     "status": "unchanged"
    },
    {
     "name": "nest",
     "value": "str",
-    "type": "primitive",
+    "isObject": false,
     "status": "added",
     "previousValue": {
      "key": "value"
     },
-    "previousValueType": "json",
+    "previousValueType": true,
     "children": [
      {
       "name": "key",
       "value": "value",
-      "type": "primitive",
+      "isObject": false,
       "status": "unchanged"
      }
     ]
@@ -289,13 +289,13 @@ test('JSON diff with json formatter', () => {
     "id": 45
    }
   },
-  "type": "json",
+  "isObject": true,
   "status": "deleted",
   "children": [
    {
     "name": "abc",
     "value": 12345,
-    "type": "primitive",
+    "isObject": false,
     "status": "unchanged"
    },
    {
@@ -303,13 +303,13 @@ test('JSON diff with json formatter', () => {
     "value": {
      "id": 45
     },
-    "type": "json",
+    "isObject": true,
     "status": "unchanged",
     "children": [
      {
       "name": "id",
       "value": 45,
-      "type": "primitive",
+      "isObject": false,
       "status": "unchanged"
      }
     ]
@@ -326,7 +326,7 @@ test('JSON diff with json formatter', () => {
    },
    "fee": 100500
   },
-  "type": "json",
+  "isObject": true,
   "status": "added",
   "children": [
    {
@@ -336,7 +336,7 @@ test('JSON diff with json formatter', () => {
       "number": 45
      }
     },
-    "type": "json",
+    "isObject": true,
     "status": "unchanged",
     "children": [
      {
@@ -344,13 +344,13 @@ test('JSON diff with json formatter', () => {
       "value": {
        "number": 45
       },
-      "type": "json",
+      "isObject": true,
       "status": "unchanged",
       "children": [
        {
         "name": "number",
         "value": 45,
-        "type": "primitive",
+        "isObject": false,
         "status": "unchanged"
        }
       ]
@@ -360,7 +360,7 @@ test('JSON diff with json formatter', () => {
    {
     "name": "fee",
     "value": 100500,
-    "type": "primitive",
+    "isObject": false,
     "status": "unchanged"
    }
   ]
@@ -378,39 +378,39 @@ test('YAML diff with json formatter', () => {
  {
   "name": "common",
   "value": "json",
-  "type": "json",
+  "isObject": true,
   "status": "updated",
   "children": [
    {
     "name": "follow",
     "value": false,
-    "type": "primitive",
+    "isObject": false,
     "status": "added"
    },
    {
     "name": "setting1",
     "value": "Value 1",
-    "type": "primitive",
+    "isObject": false,
     "status": "unchanged"
    },
    {
     "name": "setting2",
     "value": 200,
-    "type": "primitive",
+    "isObject": false,
     "status": "deleted"
    },
    {
     "name": "setting3",
     "value": null,
-    "type": "primitive",
+    "isObject": false,
     "status": "added",
     "previousValue": true,
-    "previousValueType": "primitive"
+    "previousValueType": false
    },
    {
     "name": "setting4",
     "value": "blah blah",
-    "type": "primitive",
+    "isObject": false,
     "status": "added"
    },
    {
@@ -418,13 +418,13 @@ test('YAML diff with json formatter', () => {
     "value": {
      "key5": "value5"
     },
-    "type": "json",
+    "isObject": true,
     "status": "added",
     "children": [
      {
       "name": "key5",
       "value": "value5",
-      "type": "primitive",
+      "isObject": false,
       "status": "unchanged"
      }
     ]
@@ -432,35 +432,35 @@ test('YAML diff with json formatter', () => {
    {
     "name": "setting6",
     "value": "json",
-    "type": "json",
+    "isObject": true,
     "status": "updated",
     "children": [
      {
       "name": "doge",
       "value": "json",
-      "type": "json",
+      "isObject": true,
       "status": "updated",
       "children": [
        {
         "name": "wow",
         "value": "so much",
-        "type": "primitive",
+        "isObject": false,
         "status": "added",
         "previousValue": "",
-        "previousValueType": "primitive"
+        "previousValueType": false
        }
       ]
      },
      {
       "name": "key",
       "value": "value",
-      "type": "primitive",
+      "isObject": false,
       "status": "unchanged"
      },
      {
       "name": "ops",
       "value": "vops",
-      "type": "primitive",
+      "isObject": false,
       "status": "added"
      }
     ]
@@ -470,37 +470,37 @@ test('YAML diff with json formatter', () => {
  {
   "name": "group1",
   "value": "json",
-  "type": "json",
+  "isObject": true,
   "status": "updated",
   "children": [
    {
     "name": "baz",
     "value": "bars",
-    "type": "primitive",
+    "isObject": false,
     "status": "added",
     "previousValue": "bas",
-    "previousValueType": "primitive"
+    "previousValueType": false
    },
    {
     "name": "foo",
     "value": "bar",
-    "type": "primitive",
+    "isObject": false,
     "status": "unchanged"
    },
    {
     "name": "nest",
     "value": "str",
-    "type": "primitive",
+    "isObject": false,
     "status": "added",
     "previousValue": {
      "key": "value"
     },
-    "previousValueType": "json",
+    "previousValueType": true,
     "children": [
      {
       "name": "key",
       "value": "value",
-      "type": "primitive",
+      "isObject": false,
       "status": "unchanged"
      }
     ]
@@ -515,13 +515,13 @@ test('YAML diff with json formatter', () => {
     "id": 45
    }
   },
-  "type": "json",
+  "isObject": true,
   "status": "deleted",
   "children": [
    {
     "name": "abc",
     "value": 12345,
-    "type": "primitive",
+    "isObject": false,
     "status": "unchanged"
    },
    {
@@ -529,13 +529,13 @@ test('YAML diff with json formatter', () => {
     "value": {
      "id": 45
     },
-    "type": "json",
+    "isObject": true,
     "status": "unchanged",
     "children": [
      {
       "name": "id",
       "value": 45,
-      "type": "primitive",
+      "isObject": false,
       "status": "unchanged"
      }
     ]
@@ -552,7 +552,7 @@ test('YAML diff with json formatter', () => {
    },
    "fee": 100500
   },
-  "type": "json",
+  "isObject": true,
   "status": "added",
   "children": [
    {
@@ -562,7 +562,7 @@ test('YAML diff with json formatter', () => {
       "number": 45
      }
     },
-    "type": "json",
+    "isObject": true,
     "status": "unchanged",
     "children": [
      {
@@ -570,13 +570,13 @@ test('YAML diff with json formatter', () => {
       "value": {
        "number": 45
       },
-      "type": "json",
+      "isObject": true,
       "status": "unchanged",
       "children": [
        {
         "name": "number",
         "value": 45,
-        "type": "primitive",
+        "isObject": false,
         "status": "unchanged"
        }
       ]
@@ -586,7 +586,7 @@ test('YAML diff with json formatter', () => {
    {
     "name": "fee",
     "value": 100500,
-    "type": "primitive",
+    "isObject": false,
     "status": "unchanged"
    }
   ]

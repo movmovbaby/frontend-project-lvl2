@@ -9,17 +9,17 @@ const stylish = (diff) => {
 
     const lines = currentValue.map((item) => {
       const {
-        name, value, type, status, children, previousValue, previousValueType,
+        name, value, isObject, status, children, previousValue, previousValueType,
       } = item;
 
       switch (status) {
         case 'unchanged':
-          return type === 'primitive'
+          return isObject === false
             ? `${currentIndent}${name}: ${value}`
             : `${currentIndent}${name}: ${iter(children, depth + 1)}`;
 
         case 'deleted':
-          return type === 'primitive'
+          return isObject === false
             ? `${setIndent(indentSize - spacesCount, '-')}${name}: ${value}`
             : `${setIndent(indentSize - spacesCount, '-')}${name}: ${iter(children, depth + 1)}`;
 
@@ -28,18 +28,18 @@ const stylish = (diff) => {
 
         case 'added':
           if (previousValue === undefined) {
-            return type === 'primitive'
+            return isObject === false
               ? `${setIndent(indentSize - spacesCount, '+')}${name}: ${value}`
               : `${setIndent(indentSize - spacesCount, '+')}${name}: ${iter(children, depth + 1)}`;
           }
           // not undefined
-          if (type === 'json' && previousValueType === 'primitive') {
+          if (isObject === true && previousValueType === false) {
             return `${setIndent(indentSize - spacesCount, '-')}${name}: ${previousValue}\n${setIndent(indentSize - spacesCount, '+')}${name}: ${iter(children, depth + 1)}`;
           }
-          if (type === 'primitive' && previousValueType === 'json') {
+          if (isObject === false && previousValueType === true) {
             return `${setIndent(indentSize - spacesCount, '-')}${name}: ${iter(children, depth + 1)}\n${setIndent(indentSize - spacesCount, '+')}${name}: ${value}`;
           }
-          if (type === 'primitive' && previousValueType === 'primitive') {
+          if (isObject === false && previousValueType === false) {
             return `${setIndent(indentSize - spacesCount, '-')}${name}: ${previousValue}\n${setIndent(indentSize - spacesCount, '+')}${name}: ${value}`;
           }
 
