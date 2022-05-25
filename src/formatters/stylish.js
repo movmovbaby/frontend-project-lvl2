@@ -31,20 +31,20 @@ const stylish = (diff) => {
             return children === undefined
               ? `${setIndent(indentSize - spacesCount, '+')}${name}: ${value}`
               : `${setIndent(indentSize - spacesCount, '+')}${name}: ${iter(children, depth + 1)}`;
-          }
-          // not undefined
-          if (children !== undefined && isPreviousValueObject === false) {
-            return `${setIndent(indentSize - spacesCount, '-')}${name}: ${previousValue}\n${setIndent(indentSize - spacesCount, '+')}${name}: ${iter(children, depth + 1)}`;
-          }
-          if (children !== undefined && isPreviousValueObject === true) {
-            return `${setIndent(indentSize - spacesCount, '-')}${name}: ${iter(children, depth + 1)}\n${setIndent(indentSize - spacesCount, '+')}${name}: ${value}`;
-          }
-          if (children === undefined && isPreviousValueObject === false) {
-            return `${setIndent(indentSize - spacesCount, '-')}${name}: ${previousValue}\n${setIndent(indentSize - spacesCount, '+')}${name}: ${value}`;
-          }
+          } else {
+            // not undefined
+            if (children !== undefined && isPreviousValueObject === false) {
+              return `${setIndent(indentSize - spacesCount, '-')}${name}: ${previousValue}\n${setIndent(indentSize - spacesCount, '+')}${name}: ${iter(children, depth + 1)}`;
+            }
+            if (children !== undefined && isPreviousValueObject === true) {
+              return `${setIndent(indentSize - spacesCount, '-')}${name}: ${iter(children, depth + 1)}\n${setIndent(indentSize - spacesCount, '+')}${name}: ${value}`;
+            }
+            if (children === undefined && isPreviousValueObject === false) {
+              return `${setIndent(indentSize - spacesCount, '-')}${name}: ${previousValue}\n${setIndent(indentSize - spacesCount, '+')}${name}: ${value}`;
+            }
 
-          break;
-
+            break;
+          }
         default:
           return '';
       }

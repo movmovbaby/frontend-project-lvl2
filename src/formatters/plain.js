@@ -34,9 +34,8 @@ const plain = (diff) => {
             : [...acc, addTemplate(newPath, to, from)];
 
         case 'deleted':
-          return children === undefined
-            ? [...acc, removeTemplate(newPath)]
-            : [...acc, removeTemplate(newPath)];
+          return [...acc, removeTemplate(newPath)];
+
         case 'updated':
           return children === undefined
             ? [...acc, updatedTemplate(newPath, previousValue, value)]
