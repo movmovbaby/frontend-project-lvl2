@@ -7,9 +7,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const getFixturePath = (filename) => join(__dirname, '..', '__fixtures__', filename);
 
-
-
-
 const json1 = getFixturePath('file1.json');
 const json2 = getFixturePath('file2.json');
 const yaml1 = getFixturePath('file1.yaml');
@@ -274,16 +271,10 @@ const cases = [
 
 describe('genDiff with all formatters', () => {
   test.each(cases)(
-    "with %s and %s as args and %s as formatters return %s",
+    'with %s and %s as args and %s as formatters return %s',
     (filename1, filename2, formatter, expectedResult) => {
       const result = generateDiff(filename1, filename2, formatter);
       expect(result).toEqual(expectedResult);
-    }
-  )
+    },
+  );
 });
-
-
-
-  // const filename1 = getFixturePath('file1.json');
-  // const filename2 = getFixturePath('file2.json');
-  // expect(generateDiff(filename1, filename2, 'stylish')).toEqual(answer);
