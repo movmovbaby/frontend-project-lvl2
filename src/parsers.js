@@ -10,7 +10,7 @@ const dataToObject = (file, extension) => {
       return yaml.load(file);
 
     default:
-      return undefined;
+      return null;
   }
 };
 
