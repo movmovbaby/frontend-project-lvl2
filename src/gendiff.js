@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import isObjectAndNotArray from './utils.js';
 
 const genDiff = (json1, json2) => {
   const keys = _.sortBy(_.union([...Object.keys(json1), ...Object.keys(json2)]));
@@ -41,7 +40,7 @@ const genDiff = (json1, json2) => {
         };
     }
     // значения разные, но одновременно не вложенные объекты
-    if ((!isObjectAndNotArray(value1) || !isObjectAndNotArray(value2))
+    if ((!_.isPlainObject(value1) || !_.isPlainObject(value2))
       && !_.isEqual(value1, value2)) {
       if (isObjectValue1 === false && isObjectValue2 === false) {
         return {
@@ -60,7 +59,7 @@ const genDiff = (json1, json2) => {
       }
     }
     // значения разные, вложенные объекты
-    if (isObjectAndNotArray(value1) && isObjectAndNotArray(value2)) {
+    if (_.isPlainObject(value1) && _.isPlainObject(value2)) {
       return (_.has(json1, key) && _.has(json2, key))
         ? {
           name: key, value: 'json', status: 'updated', children: genDiff(value1, value2),
