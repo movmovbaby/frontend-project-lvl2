@@ -1,5 +1,5 @@
 const setIndent = (depth, delimeter) => ' '.repeat(depth).concat(`  ${delimeter} `);
-const spacesCount = 4
+const spacesCount = 4;
 
 const stringify = (currentValue, depth) => {
   if (typeof currentValue !== 'object' || currentValue === null) {
@@ -21,13 +21,14 @@ const stringify = (currentValue, depth) => {
   ].join('\n');
 };
 
-
 const stylish = (diff) => {
   const iter = (currentValue, depth) => {
     const indentSize = depth * spacesCount;
     const currentIndent = ' '.repeat(indentSize);
     const lines = currentValue.map((item) => {
-      const { status, name, value, previousValue, children } = item;
+      const {
+        status, name, value, previousValue, children,
+      } = item;
       switch (status) {
         case 'deleted':
           return `${setIndent(indentSize - spacesCount, '-')}${name}: ${stringify(value, depth + 1)}`;
