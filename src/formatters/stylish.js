@@ -1,63 +1,56 @@
 const setIndent = (depth, delimeter) => ' '.repeat(depth).concat(`  ${delimeter} `);
+const spacesCount = 4
+
+const stringify = (currentValue, depth) => {
+  if (typeof currentValue !== 'object' || currentValue === null) {
+    return `${currentValue}`;
+  }
+
+  const indentSize = depth * spacesCount;
+  const currentIndent = ' '.repeat(indentSize);
+  const bracketIndent = ' '.repeat(indentSize - spacesCount);
+
+  const lines = Object
+    .entries(currentValue)
+    .map(([key, val]) => `${currentIndent}${key}: ${stringify(val, depth + 1)}`);
+
+  return [
+    '{',
+    ...lines,
+    `${bracketIndent}}`,
+  ].join('\n');
+};
+
 
 const stylish = (diff) => {
-  const spacesCount = 4;
   const iter = (currentValue, depth) => {
-    const indentSize = spacesCount * depth;
+    const indentSize = depth * spacesCount;
     const currentIndent = ' '.repeat(indentSize);
-    const bracketIndent = ' '.repeat(indentSize - spacesCount);
-
     const lines = currentValue.map((item) => {
-      const {
-        name, value, status, children, previousValue, isPreviousValueObject,
-      } = item;
-
+      const { status, name, value, previousValue, children } = item;
       switch (status) {
-        case 'unchanged':
-          return children === undefined
-            ? `${currentIndent}${name}: ${value}`
-            : `${currentIndent}${name}: ${iter(children, depth + 1)}`;
-
         case 'deleted':
-          return children === undefined
-            ? `${setIndent(indentSize - spacesCount, '-')}${name}: ${value}`
-            : `${setIndent(indentSize - spacesCount, '-')}${name}: ${iter(children, depth + 1)}`;
-
-        case 'updated':
-          return `${currentIndent}${name}: ${iter(children, depth + 1)}`;
+          return `${setIndent(indentSize - spacesCount, '-')}${name}: ${stringify(value, depth + 1)}`;
 
         case 'added':
-          if (previousValue === undefined) {
-            return children === undefined
-              ? `${setIndent(indentSize - spacesCount, '+')}${name}: ${value}`
-              : `${setIndent(indentSize - spacesCount, '+')}${name}: ${iter(children, depth + 1)}`;
-          }
-          // not undefined
-          if (children !== undefined && isPreviousValueObject === false) {
-            return `${setIndent(indentSize - spacesCount, '-')}${name}: ${previousValue}\n${setIndent(indentSize - spacesCount, '+')}${name}: ${iter(children, depth + 1)}`;
-          }
-          if (children !== undefined && isPreviousValueObject === true) {
-            return `${setIndent(indentSize - spacesCount, '-')}${name}: ${iter(children, depth + 1)}\n${setIndent(indentSize - spacesCount, '+')}${name}: ${value}`;
-          }
-          if (children === undefined && isPreviousValueObject === false) {
-            return `${setIndent(indentSize - spacesCount, '-')}${name}: ${previousValue}\n${setIndent(indentSize - spacesCount, '+')}${name}: ${value}`;
-          }
+          return `${setIndent(indentSize - spacesCount, '+')}${name}: ${stringify(value, depth + 1)}`;
 
-          break;
+        case 'unchanged':
+          return `${currentIndent}${name}: ${stringify(value, depth + 1)}`;
+
+        case 'updated':
+          return `${setIndent(indentSize - spacesCount, '-')}${name}: ${stringify(previousValue, depth + 1)}\n${setIndent(indentSize - spacesCount, '+')}${name}: ${stringify(value, depth + 1)}`;
+
+        case 'nested':
+          return `${currentIndent}${name}: {\n${iter(children, depth + 1)}\n${currentIndent}}`;
 
         default:
-          return '';
+          return null;
       }
-      return '';
     });
-
-    return [
-      '{',
-      ...lines,
-      `${bracketIndent}}`,
-    ].join('\n');
+    return lines.join('\n');
   };
-  return iter(diff, 1);
+  return `{\n${iter(diff, 1)}\n}`;
 };
 
 export default stylish;
