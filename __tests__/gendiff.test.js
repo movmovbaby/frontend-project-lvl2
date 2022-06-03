@@ -71,8 +71,8 @@ Property 'group3' was added with value: [complex value]`;
 const jsonResult = `[
  {
   "name": "common",
-  "value": "json",
-  "status": "updated",
+  "value": "object",
+  "status": "nested",
   "children": [
    {
     "name": "follow",
@@ -92,9 +92,8 @@ const jsonResult = `[
    {
     "name": "setting3",
     "value": null,
-    "status": "added",
-    "previousValue": true,
-    "isPreviousValueObject": false
+    "status": "updated",
+    "previousValue": true
    },
    {
     "name": "setting4",
@@ -106,31 +105,23 @@ const jsonResult = `[
     "value": {
      "key5": "value5"
     },
-    "status": "added",
-    "children": [
-     {
-      "name": "key5",
-      "value": "value5",
-      "status": "unchanged"
-     }
-    ]
+    "status": "added"
    },
    {
     "name": "setting6",
-    "value": "json",
-    "status": "updated",
+    "value": "object",
+    "status": "nested",
     "children": [
      {
       "name": "doge",
-      "value": "json",
-      "status": "updated",
+      "value": "object",
+      "status": "nested",
       "children": [
        {
         "name": "wow",
         "value": "so much",
-        "status": "added",
-        "previousValue": "",
-        "isPreviousValueObject": false
+        "status": "updated",
+        "previousValue": ""
        }
       ]
      },
@@ -150,15 +141,14 @@ const jsonResult = `[
  },
  {
   "name": "group1",
-  "value": "json",
-  "status": "updated",
+  "value": "object",
+  "status": "nested",
   "children": [
    {
     "name": "baz",
     "value": "bars",
-    "status": "added",
-    "previousValue": "bas",
-    "isPreviousValueObject": false
+    "status": "updated",
+    "previousValue": "bas"
    },
    {
     "name": "foo",
@@ -168,18 +158,10 @@ const jsonResult = `[
    {
     "name": "nest",
     "value": "str",
-    "status": "added",
+    "status": "updated",
     "previousValue": {
      "key": "value"
-    },
-    "isPreviousValueObject": true,
-    "children": [
-     {
-      "name": "key",
-      "value": "value",
-      "status": "unchanged"
-     }
-    ]
+    }
    }
   ]
  },
@@ -191,28 +173,7 @@ const jsonResult = `[
     "id": 45
    }
   },
-  "status": "deleted",
-  "children": [
-   {
-    "name": "abc",
-    "value": 12345,
-    "status": "unchanged"
-   },
-   {
-    "name": "deep",
-    "value": {
-     "id": 45
-    },
-    "status": "unchanged",
-    "children": [
-     {
-      "name": "id",
-      "value": 45,
-      "status": "unchanged"
-     }
-    ]
-   }
-  ]
+  "status": "deleted"
  },
  {
   "name": "group3",
@@ -224,39 +185,7 @@ const jsonResult = `[
    },
    "fee": 100500
   },
-  "status": "added",
-  "children": [
-   {
-    "name": "deep",
-    "value": {
-     "id": {
-      "number": 45
-     }
-    },
-    "status": "unchanged",
-    "children": [
-     {
-      "name": "id",
-      "value": {
-       "number": 45
-      },
-      "status": "unchanged",
-      "children": [
-       {
-        "name": "number",
-        "value": 45,
-        "status": "unchanged"
-       }
-      ]
-     }
-    ]
-   },
-   {
-    "name": "fee",
-    "value": 100500,
-    "status": "unchanged"
-   }
-  ]
+  "status": "added"
  }
 ]`;
 
@@ -265,8 +194,8 @@ const cases = [
   [yaml1, yaml2, 'stylish', stylishResult],
   [json1, json2, 'plain', plainResult],
   [yaml1, yaml2, 'plain', plainResult],
-  // [json1, json2, 'json', jsonResult],
-  // [yaml1, yaml2, 'json', jsonResult],
+  [json1, json2, 'json', jsonResult],
+  [yaml1, yaml2, 'json', jsonResult],
 ];
 
 describe('genDiff with all formatters', () => {
