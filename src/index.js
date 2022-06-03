@@ -16,9 +16,7 @@ const generateDiff = (filePath1, filePath2, format) => {
   const data1 = dataToObject(file1, extension1);
   const data2 = dataToObject(file2, extension2);
   const diff = genDiff(data1, data2);
-  // console.log(diff);
   const formattedDiff = formatter(diff, format);
-  // console.log(formattedDiff);
   return formattedDiff;
 };
 

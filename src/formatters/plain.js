@@ -14,7 +14,7 @@ const addTemplate = (path, value, previousValue) => {
 
 const removeTemplate = (path) => `Property '${path}' was removed`;
 
-const updatedTemplate = (path, from, to) => `Property '${path}' was updated. From ${from} to ${to}`;
+const updatedTemplate = (path, from, to) => `Property '${path}' was updated. From ${valueToString(from)} to ${valueToString(to)}`;
 
 const plain = (diff) => {
   const iter = (currentValue, path) => {
@@ -29,14 +29,15 @@ const plain = (diff) => {
 
       switch (status) {
         case 'added':
-          return children === undefined
-            ? [...acc, addTemplate(newPath, value, previousValue)]
-            : [...acc, addTemplate(newPath, to, from)];
+          return [...acc, addTemplate(newPath, to, from)];
 
         case 'deleted':
           return [...acc, removeTemplate(newPath)];
 
         case 'updated':
+          return [...acc, updatedTemplate(newPath, from, to)];
+
+        case 'nested':
           return children === undefined
             ? [...acc, updatedTemplate(newPath, previousValue, value)]
             : [...acc, iter(children, newPath)];

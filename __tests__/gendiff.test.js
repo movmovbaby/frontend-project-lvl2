@@ -263,8 +263,8 @@ const jsonResult = `[
 const cases = [
   [json1, json2, 'stylish', stylishResult],
   [yaml1, yaml2, 'stylish', stylishResult],
-  // [json1, json2, 'plain', plainResult],
-  // [yaml1, yaml2, 'plain', plainResult],
+  [json1, json2, 'plain', plainResult],
+  [yaml1, yaml2, 'plain', plainResult],
   // [json1, json2, 'json', jsonResult],
   // [yaml1, yaml2, 'json', jsonResult],
 ];
